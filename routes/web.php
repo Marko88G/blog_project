@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Post;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,9 +17,12 @@ Route::get('/', function () {
     return view('posts');
 });
 
+Route::get('posts/{post}', function ($slug) {
+   // Find a post by its slug and pass it to a view called "post"
+    $post = Post::find($slug);
 
-Route::get('post', function () {
-   return view('post', [
-       'post' => file_get_contents(__DIR__ . '/../resources/posts/my-first-post.html') // $post
-   ]);
-});
+    return view('post', [
+        'post' => $post
+    ]);
+
+})->where('post', '[A-z\-]+');
